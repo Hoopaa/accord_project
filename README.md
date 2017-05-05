@@ -31,3 +31,9 @@ Projet réalisé dans le cadre du cours Web Mining de la HES-SO MSE.
   * Ludovic Pfeiffer
   * Brian Nydegger
   * Gérôme Pasquier
+
+
+##Autres
+
+ * Pouvons-nous créer notre propre indexeur?
+ * Nous avons 2800 artistes et 16000 titres
