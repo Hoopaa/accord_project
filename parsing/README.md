@@ -8,6 +8,6 @@
  * Format des données : Une chanson représente une ligne dans un fichier ".txt" (se terminant par "\n").
  une ligne se présente sous la forme suivante :
  
- "nom_de_l'artiste",titre_de_la_chanson","url_de_la_chanson",["accord_1","accord_2",...,"accord_n"]
+ _nom_de_l'artiste_,_titre_de_la_chanson_,_url_de_la_chanson_,[_accord_1_,_accord_2_,...,_accord_n_]
 
  tous les champs sont séparté par des "," et les accord sont encadré de "[" "]"
