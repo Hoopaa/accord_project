@@ -14,9 +14,11 @@ def request(url):
         try:
             j = urlopen(url).read()
             res = True
-        except UrlError as e:
+        except Exception as e:
+            print e.message
+            print e.args
+
             #en cas de probleme attendre 20 secondes
-            print e.reason
             time.sleep(20)
 
     return BeautifulSoup.BeautifulSoup(j,"lxml")
@@ -117,7 +119,7 @@ def getAccord(url):
 
 #alphabet = ["9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
-alphabet = ["C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+alphabet = ["M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
 #pour tous les artistes (de A a Z + 9)
 for lettre in alphabet:
