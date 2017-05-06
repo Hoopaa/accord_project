@@ -35,6 +35,6 @@ Projet réalisé dans le cadre du cours Web Mining de la HES-SO MSE.
 
 ## Autres
 
- * Pouvons-nous créer notre propre indexeur?
- * Nous avons 2800 artistes et 16000 titres
+ * Pouvons-nous créer notre propre indexeur? => utiliser Lucen
+ * Nous avons 2800 artistes et 16000 titres => OK
  * Sources des données : http://www.boiteachansons.net/Partitions/index.php
