@@ -117,9 +117,8 @@ def getAccord(url):
 
 
 
-#alphabet = ["9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+alphabet = ["9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
-alphabet = ["T","U","V","W","X","Y","Z"]
 
 #pour tous les artistes (de A a Z + 9)
 for lettre in alphabet:

@@ -3,6 +3,7 @@
 
 #permet de récuperer l'url YouTube d'une chanson du site Boite a Chanson
 
+
 import sys
 from urllib2 import urlopen
 import bs4 as BeautifulSoup
@@ -39,4 +40,12 @@ def getYoutubeURLfromboiteachansonsURL(urlBaC):
 
     print "www.youtube.com"+str(res)[pos:pos+20]
 
-getYoutubeURLfromboiteachansonsURL("http://www.boiteachansons.net/Partitions/Kain/Adam-et-Eve.php")
+
+
+if len(sys.argv) != 2 :
+    print "donner une url du site boite a chanson exemple : http://www.boiteachansons.net/Partitions/Kain/Adam-et-Eve.php"
+else:
+    if(sys.argv[1].startswith("http://www.boiteachansons.net/Partitions/")):
+        getYoutubeURLfromboiteachansonsURL(sys.argv[1])
+    else:
+        print "donner une url du site boite a chanson exemple : http://www.boiteachansons.net/Partitions/Kain/Adam-et-Eve.php"
