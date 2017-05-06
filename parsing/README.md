@@ -11,3 +11,7 @@
  _nom_de_l'artiste_,_titre_de_la_chanson_,_url_de_la_chanson_,[_accord_1_,_accord_2_,...,_accord_n_]
 
  tous les champs sont séparté par des "," et les accord sont encadré de "[" "]"
+ 
+ 
+ ## remarque
+ lettre J problème avec Jordana Camelia
