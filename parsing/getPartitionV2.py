@@ -4,9 +4,22 @@
 import sys
 from urllib2 import urlopen
 import bs4 as BeautifulSoup
+import time
 
 import re
 
+def request(url):
+    res = False
+    while res == False:
+        try:
+            j = urlopen(url).read()
+            res = True
+        except UrlError as e:
+            #en cas de probleme attendre 20 secondes
+            print e.reason
+            time.sleep(20)
+
+    return BeautifulSoup.BeautifulSoup(j,"lxml")
 
 class output:
 
@@ -15,7 +28,7 @@ class output:
 
     def insertSong(self, song, artiste):
         Tsong=[artiste.name, song.title, song.url, song.accord]
-        self.file.writelines(str(Tsong).replace("'", "")+"\n")
+        self.file.writelines(str(Tsong).replace("'", "")[1:-1].replace(", ", ",")+"\n")
 
     def close(self):
         self.file.close()
@@ -51,9 +64,7 @@ class song:
 
 def getArtistList(firstLettre):
     url = "http://www.boiteachansons.net/Partitions/index.php?artiste=" + str(firstLettre)
-    j = urlopen(url).read()
-
-    s = BeautifulSoup.BeautifulSoup(j,"lxml")
+    s=request(url)
 
     #recuperation de la liste des artistes
     artists = s.find_all('li', attrs={'class':'liElementLstPartitions'})
@@ -72,9 +83,7 @@ def getArtistList(firstLettre):
 def getSongsList(artiste):
     #recuperation de la liste des songs pour l artiste
     url = artiste.url
-    j = urlopen(url).read()
-
-    s = BeautifulSoup.BeautifulSoup(j,"lxml")
+    s = request(url)
 
     songs = s.find_all('li', attrs={'class':'liElementLstPartitions'})
 
@@ -86,8 +95,7 @@ def getSongsList(artiste):
 
 
 def getAccord(url):
-    j = urlopen(url).read()
-    s = BeautifulSoup.BeautifulSoup(j,"lxml")
+    s = request(url)
 
     accords = s.find_all('a', attrs={'class':'ac'})
 
@@ -107,20 +115,27 @@ def getAccord(url):
 
 
 
+#alphabet = ["9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
+alphabet = ["C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
-
-alphabet = ["9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-
+#pour tous les artistes (de A a Z + 9)
 for lettre in alphabet:
+    #Creation d'un fichier de sortie au format .txt avec pour nom la 1ere lettre des artistes
     sortie = output(lettre + ".txt")
-    print lettre
+
     b = getArtistList(lettre)
-    for i in range(len(b)):
-        print"     "+str(b[i].name)
+    print lettre +" - "+ str(len(b))
+
+    #pour tous les artistes commencant par la lettre "lettre"
+    for i in range(0, len(b)):
+        print"     "+str(i)+"-"+str(b[i].name)
         getSongsList(b[i])
+
+        #pour toutes les chansons de l'artiste
         for s in b[i].songs:
-            sortie.insertSong(s,b[i])
+            if(len(s.accord) != 0):
+                sortie.insertSong(s,b[i])
 
 
     sortie.close()
