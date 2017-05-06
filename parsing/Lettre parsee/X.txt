@@ -1,0 +1,6 @@
+X Ambassadors,Renegades,http://www.boiteachansons.net/Partitions/X-Ambassadors/Renegades.php,[Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G,Bm,D,A,G]
+X Ray Pop,Ding dong,http://www.boiteachansons.net/Partitions/X-Ray-Pop/Ding-dong.php,[Am,G,D,C,A,G,A,G,A,G,A,G,A,C,G,A,G,A,C,G,A,G,A,Am]
+X Ray Pop,Fumer la nuit,http://www.boiteachansons.net/Partitions/X-Ray-Pop/Fumer-la-nuit.php,[E,G#m,Bm,A,E,G#m,Bm,A,E,G#m,Bm,A,A7]
+Xutos e Pontapes,Chuva Dissolvente,http://www.boiteachansons.net/Partitions/Xutos-e-Pontapes/Chuva-Dissolvente.php,[Am,C,G,D,Am,C,G,D,Am,Am,C,G,D,Am,C,G,D,C,G,Am,D,Am,G,D,Am,C,G,D,Am]
+Xutos e Pontapes,Contentores,http://www.boiteachansons.net/Partitions/Xutos-e-Pontapes/Contentores.php,[A,D,A,D,A,D,A,E,A,A,D,A,D,A,G,D,A,G,D,A,E,A,D,E,C,F,C,F,C,F,C,F,A,D,E,A,D,E]
+Xutos e Pontapes,Nao sou o unico,http://www.boiteachansons.net/Partitions/Xutos-e-Pontapes/Nao-sou-o-unico.php,[Am,G,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,F,C,Dm,A,F,C,Dm,G,Am,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C,Am,G,Dm,C]
