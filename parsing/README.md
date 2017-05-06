@@ -7,5 +7,6 @@
  par un chiffre ou autre comme 1789 les amants de la Bastille par exemple. Ce fichier se nomme "9.txt"
  * Format des données : Une chanson représente une ligne dans un fichier ".txt" (se terminant par "\n").
  une ligne se présente sous la forme suivante :
+ 
  "nom_de_l'artiste",titre_de_la_chanson","url_de_la_chanson",["accord_1","accord_2",...,"accord_n"]
  tous les champs sont séparté par des "," et les accord sont encadré de "[" "]"
