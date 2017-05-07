@@ -1,4 +1,6 @@
 
+# Parsing
+
  * Sources des données : http://www.boiteachansons.net/Partitions/index.php
  * Nous avons 2800 artistes et 14580 titres
  * Stockage des données : Les données sont stockée dans des fichiers ".txt". Il y a un total de 27 fichier. Chaque fichier contient les
@@ -13,7 +15,7 @@
  tous les champs sont séparté par des "," et les accord sont encadré de "[" "]"
  
  
- ## remarque
+ ## Remarques
  lettre J problème avec _Jordana Camelia_
  
  lettre s problème avec _Joan Manuel Serrat_
