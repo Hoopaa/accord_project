@@ -14,6 +14,6 @@
  
  
  ## remarque
- lettre J problème avec Jordana Camelia
+ lettre J problème avec _Jordana Camelia_
  
- lettre s problème avec Joan Manuel Serrat
+ lettre s problème avec _Joan Manuel Serrat_
