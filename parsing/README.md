@@ -18,10 +18,3 @@
  lettre J problème avec Jordana Camelia
  
  lettre s problème avec Joan Manuel Serrat
-=======
- 
- 
- ## Remarques
- lettre J problème avec _Jordana Camelia_
- 
- lettre s problème avec _Joan Manuel Serrat_
