@@ -8,15 +8,16 @@ public class Song {
     private String artistName;
     private String name;
     private String url;
-    private ArrayList<String> accords;
+    private String accords;
 
     public Song(String artist, String name, String url, String accords) {
         artistName = artist;
         this.name = name;
         this.url = url;
-        this.accords = new ArrayList<>();
+        /*this.accords = new ArrayList<>();
         String[] accordsSplit = accords.split(",");
-        this.accords.addAll(Arrays.asList(accordsSplit));
+        this.accords.addAll(Arrays.asList(accordsSplit));*/
+        this.accords = accords;
     }
 
     public String getArtistName() {
@@ -31,7 +32,7 @@ public class Song {
         return url;
     }
 
-    public ArrayList<String> getAccords() {
+    public String getAccords() {
         return accords;
     }
 

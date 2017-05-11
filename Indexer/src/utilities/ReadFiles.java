@@ -2,13 +2,11 @@ package utilities;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ReadFiles implements Runnable{
+public class ReadFiles{
 
     private String path;
     private File folder;
-    private Thread t;
     private String threadName;
     private ArrayList<Song> songList;
 
@@ -17,10 +15,10 @@ public class ReadFiles implements Runnable{
         threadName = name;
         folder = new File(path);
         songList = new ArrayList<>();
+        run();
     }
 
-    @Override
-    public void run() {
+    private void run() {
         for(File f : folder.listFiles()) {
             try {
                 BufferedReader in = new BufferedReader(new FileReader(this.path+"/"+f.getName()));
@@ -38,15 +36,9 @@ public class ReadFiles implements Runnable{
                 e.printStackTrace();
             }
         }
-        for(Song s : songList) {
-            System.out.println(s);
-        }
     }
 
-    public void start() {
-        if(t == null) {
-            t = new Thread(this, threadName);
-            t.start();
-        }
+    public ArrayList<Song> getSongList() {
+        return this.songList;
     }
 }
