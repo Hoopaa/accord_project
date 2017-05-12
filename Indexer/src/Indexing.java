@@ -1,6 +1,9 @@
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -31,11 +34,19 @@ public class Indexing {
             tokenStream = tokenizer
                     .tokenStream("dummy", new StringReader(tFiles.getSongList().get(0).getAccords()));
             tokenStream.reset();
+            Document d = new Document();
             while (tokenStream.incrementToken()) {
+
                 String text = tokenStream.getAttribute(CharTermAttribute.class)
                         .toString();
-                System.out.println(text);
+                //System.out.println(text);
+                TextField accords = new TextField("accord", text, Field.Store.YES);
+                d.add(accords);
+                System.out.println(d);
             }
+            tokenStream.close();
+            indexWriter.addDocument(d);
+            indexWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
