@@ -33,7 +33,7 @@ def get_txt(url):
 
 
 def getTxtSong(url):
-    print "DEBUGGGGGGGG"
+    print "DEBUG"
     print url
     #http://www.boiteachansons.net/Txt/Jimmy-C-Newman/Lache-pas-la-patate.txt
     url = url.replace("_","/")
