@@ -11,7 +11,12 @@ Projet réalisé dans le cadre du cours Web Mining de la HES-SO MSE.
 | Data  | Pasquier  |
 | Parsing  | Pasquier  |
 | Indexing  | Pfeiffer  |
+<<<<<<< HEAD
 | Retrieving  | Nydegger  |
+=======
+| Retrieving  | Nydegger/Pfeiffer  |
+| Interface  | Nydegger  |
+>>>>>>> 2d1031f500ebc0bcff3e245a4b0ac74d6c32d7d4
 
 ## Plannings
 
