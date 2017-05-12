@@ -19,6 +19,7 @@ public class AccordAnalyzer extends Analyzer {
     protected TokenStreamComponents createComponents(String s) {
         Tokenizer standardTokenizer = new WhitespaceTokenizer();
         TokenStream tok = new ShingleFilter(standardTokenizer, min, max);
+        tok = new AccordFilter(tok);
         return new TokenStreamComponents(standardTokenizer, tok);
     }
 }
