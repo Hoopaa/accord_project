@@ -3,13 +3,14 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import utilities.AccordAnalyzer;
 import utilities.ReadFiles;
+import utilities.Song;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -31,22 +32,31 @@ public class Indexing {
             IndexWriter indexWriter = new IndexWriter(dir, iwc);
 
             TokenStream tokenStream;
-            tokenStream = tokenizer
-                    .tokenStream("dummy", new StringReader(tFiles.getSongList().get(0).getAccords()));
-            tokenStream.reset();
-            Document d = new Document();
-            while (tokenStream.incrementToken()) {
-
-                String text = tokenStream.getAttribute(CharTermAttribute.class)
-                        .toString();
-                //System.out.println(text);
-                TextField accords = new TextField("accord", text, Field.Store.YES);
-                d.add(accords);
-                System.out.println(d);
+            for(Song s : tFiles.getSongList()) {
+                tokenStream = tokenizer
+                        .tokenStream("dummy", new StringReader(s.getAccords()));
+                tokenStream.reset();
+                Document d = new Document();
+                Field name = new StringField("name", s.getName(), Field.Store.YES);
+                Field author = new StringField("author", s.getArtistName(), Field.Store.YES);
+                Field url = new StringField("url", s.getUrl(), Field.Store.YES);
+                d.add(name);
+                d.add(author);
+                d.add(url);
+                while (tokenStream.incrementToken()) {
+                    String text = tokenStream.getAttribute(CharTermAttribute.class)
+                            .toString();
+                    Field accords = new StringField("accord", text, Field.Store.YES);
+                    d.add(accords);
+                }
+                tokenStream.reset();
+                indexWriter.addDocument(d);
             }
-            tokenStream.close();
-            indexWriter.addDocument(d);
             indexWriter.close();
+            IndexReader reader = DirectoryReader.open(dir);
+            /*for(IndexableField i :reader.document(0).getFields("accord")) {
+                System.out.println(i.stringValue());
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }
