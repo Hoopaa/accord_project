@@ -1,7 +1,5 @@
 package utilities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Song {
 
@@ -14,10 +12,7 @@ public class Song {
         artistName = artist;
         this.name = name;
         this.url = url;
-        /*this.accords = new ArrayList<>();
-        String[] accordsSplit = accords.split(",");
-        this.accords.addAll(Arrays.asList(accordsSplit));*/
-        this.accords = accords;
+        this.accords = accords.replace(","," ");
     }
 
     public String getArtistName() {
