@@ -10,10 +10,11 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/lucene-6.5.1/analysis/common/lucene-analyzers-common-6.5.1.jar!/" />
+          <root url="file://$MODULE_DIR$/libraries" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libraries" recursive="false" />
       </library>
     </orderEntry>
   </component>
