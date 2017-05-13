@@ -20,7 +20,20 @@ public class Indexing {
 
 
     public static void main(String[] args) {
-        boolean indexing = false;
+        if(args.length < 1) {
+            System.out.println("Wrong arguments numbers");
+            System.out.println("Usage : <indexing(0) / search(1)> <request>");
+            return;
+        }
+        boolean indexing;
+        switch(args[0]) {
+            case "0":
+                indexing = true;
+                break;
+            default :
+                indexing = false;
+                break;
+        }
         try {
             Path path = FileSystems.getDefault().getPath("index_standard");
             Directory dir = FSDirectory.open(path);
@@ -57,17 +70,17 @@ public class Indexing {
                     indexWriter.addDocument(d);
                 }
                 indexWriter.close();
+            } else {
+                IndexReader reader = DirectoryReader.open(dir);
+                IndexSearcher is = new IndexSearcher(reader);
+                Query query = new TermQuery(new Term("accord", args[1]));
+                ScoreDoc[] hits = is.search(query, Integer.MAX_VALUE).scoreDocs;
+                System.out.println(hits.length);
+                for (ScoreDoc hit : hits) {
+                    Document doc = is.doc(hit.doc);
+                    System.out.println(doc.get("name") + " : " + doc.get("author") + " : " + hit.score);
+                }
             }
-            IndexReader reader = DirectoryReader.open(dir);
-            IndexSearcher is = new IndexSearcher(reader);
-            Query query = new TermQuery(new Term("accord", "G D C C"));
-            ScoreDoc[] hits = is.search(query, Integer.MAX_VALUE).scoreDocs;
-            System.out.println(hits.length);
-            for(ScoreDoc hit : hits) {
-                Document doc = is.doc(hit.doc);
-                System.out.println(doc.get("name") + " : " + doc.get("author") + " : " + hit.score);
-            }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
