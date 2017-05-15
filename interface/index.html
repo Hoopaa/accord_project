@@ -21,6 +21,42 @@
     .btn-chords .row {
       margin-top: 10px;
     }
+
+
+    #custom-search-input{
+      padding: 3px;
+      border: solid 1px #E4E4E4;
+      border-radius: 6px;
+      background-color: #fff;
+
+      display: table;
+    }
+
+    #custom-search-input input{
+      border: 0;
+      box-shadow: none;
+    }
+
+    #custom-search-input button{
+      margin: 2px 0 0 0;
+      background: none;
+      box-shadow: none;
+      border: 0;
+      color: #666666;
+      padding: 0 8px 0 10px;
+      border-left: solid 1px #ccc;
+    }
+
+    #custom-search-input button:hover{
+      border: 0;
+      box-shadow: none;
+      border-left: solid 1px #ccc;
+    }
+
+    #custom-search-input .glyphicon-search{
+      font-size: 23px;
+    }
+
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -30,8 +66,18 @@
       <h1>Moteur de recherche de chansons, par accords</h1>
     </div>
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-8 col-lg-offset-2" id="custom-search-input">
         <input type="search" id="search" value="" class="form-control" placeholder="Recherche par suite d'accords">
+        <span class="input-group-btn">
+          <button class="btn btn-info btn-lg" type="button" onclick="onSearch()">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </span>
+        <span class="input-group-btn">
+          <button class="btn btn-info btn-lg" type="button" onclick="hideDisplay()">
+            <i id="hideDisplay" class="glyphicon glyphicon-chevron-up"></i>
+          </button>
+        </span>
       </div>
     </div>
     <div class="row btn-chords">
@@ -69,11 +115,14 @@
       <div class="row">
         <h4>Supplémentaire</h4>
         <div class="btn-group" id="supp-btns">
-          <button type="button" class="btn btn-primary" value="">Aucun</button>
+          <button type="button" class="btn btn-primary active" value="">&nbsp;</button>
           <button type="button" class="btn btn-primary" value="(dim)">Diminué</button>
           <button type="button" class="btn btn-primary" value="(sus2)">Suspendu 2</button>
           <button type="button" class="btn btn-primary" value="(sus4)">Suspendu 4</button>
           <button type="button" class="btn btn-primary" value="(aug)">Augmenté</button>
+          <button type="button" class="btn btn-primary" value="(b5)">Quinte diminuée</button>
+          <button type="button" class="btn btn-primary" value="(b9)">Neuvième diminuée</button>
+          <button type="button" class="btn btn-primary" value="(b13)">treizième diminuée</button>
         </div>
       </div>
       <div class="row">
@@ -95,7 +144,8 @@
         </div>
       </div>
       <div class="row">
-        <span id="chord-display"></span>
+        <mark><span id="chord-display"></span></mark>
+        <br />
         <button type="button" class="btn btn-success" id="add-chord">Ajouter cet accord</button>
       </div>
     </div>
@@ -228,6 +278,21 @@
 
       displayChords();
     });
+
+    function onSearch() {
+      $("#hideDisplay").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+      $(".btn-chords").fadeOut();
+    }
+
+    function hideDisplay() {
+      if ($(".btn-chords").is(":visible")) {
+        $("#hideDisplay").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+        $(".btn-chords").fadeOut();
+      } else {
+        $("#hideDisplay").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+        $(".btn-chords").fadeIn();
+      }
+    }
   </script>
 </body>
 </html>
