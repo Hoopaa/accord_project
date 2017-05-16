@@ -26,7 +26,6 @@
     #custom-search-input{
       padding: 3px;
       border: solid 1px #E4E4E4;
-      border-radius: 6px;
       background-color: #fff;
 
       display: table;
@@ -59,6 +58,7 @@
 
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="keithwhor-audiosynth-2e26f29/audiosynth.js"></script>
 </head>
 <body>
   <div class="container">
@@ -92,13 +92,10 @@
           <button type="button" class="btn btn-primary">A</button>
           <button type="button" class="btn btn-primary">B</button>
         </div>
-      </div>
-      <div class="row">
-        <h4>Altération</h4>
         <div class="btn-group" id="alteration-btns">
           <button type="button" class="btn btn-primary active">♮</button>
-          <button type="button" class="btn btn-primary">#</button>
-          <button type="button" class="btn btn-primary">♭</button>
+          <button type="button" class="btn btn-primary" id="sharp">#</button>
+          <button type="button" class="btn btn-primary" id="flat" disabled>♭</button>
         </div>
       </div>
       <div class="row">
@@ -119,7 +116,7 @@
           <button type="button" class="btn btn-primary" value="(dim)">Diminué</button>
           <button type="button" class="btn btn-primary" value="(sus2)">Suspendu 2</button>
           <button type="button" class="btn btn-primary" value="(sus4)">Suspendu 4</button>
-          <button type="button" class="btn btn-primary" value="(aug)">Augmenté</button>
+          <button type="button" class="btn btn-primary" value="(aug)">Quinte augmentée</button>
           <button type="button" class="btn btn-primary" value="(b5)">Quinte diminuée</button>
           <button type="button" class="btn btn-primary" value="(b9)">Neuvième diminuée</button>
           <button type="button" class="btn btn-primary" value="(b13)">treizième diminuée</button>
@@ -139,14 +136,23 @@
         </div>
         <div class="btn-group" id="basse-alteration-btns">
           <button type="button" class="btn btn-primary active">♮</button>
-          <button type="button" class="btn btn-primary">#</button>
-          <button type="button" class="btn btn-primary">♭</button>
+          <button type="button" class="btn btn-primary" id="basse-sharp">#</button>
+          <button type="button" class="btn btn-primary" id="basse-flat">♭</button>
         </div>
       </div>
       <div class="row">
         <mark><span id="chord-display"></span></mark>
         <br />
         <button type="button" class="btn btn-success" id="add-chord">Ajouter cet accord</button>
+        <button type="button" class="btn btn-info" onclick="playChords()">
+          Écouter cet accord <i id="hideDisplay" class="glyphicon glyphicon-volume-up"></i>
+        </button>
+        <select id="sound">
+          <option value="0" selected="">Keyboard</option>
+          <option value="1">Organ</option>
+          <option value="2">Acoustic Guitar</option>
+          <option value="3">EDM, bro!</option>
+        </select>
       </div>
     </div>
     <div class="row">
@@ -194,20 +200,189 @@
     var basse = "";
     var basse_alteration = "";
 
+    Synth instanceof AudioSynth;
+    var id_sound = 0;
+
+    var notes = [
+      'C',
+      'C#',
+      'D',
+      'D#',
+      'E',
+      'F',
+      'F#',
+      'G',
+      'G#',
+      'A',
+      'A#',
+      'B',
+    ];
+
+    var notesFlat = {
+      'Cb': 'B',
+      'Db': 'C#',
+      'Eb': 'D#',
+      'Fb': 'E',
+      'Gb': 'F#',
+      'Ab': 'G#',
+      'Bb': 'A#',
+    }
+
+    function playNote(note, octaveAdd) {
+      if (notesFlat[note])
+        note = notesFlat[note];
+
+      Synth.play(id_sound, note, 4 + octaveAdd, 2);
+    }
+
+    function playNoteDecalage(note, decalage) {
+      var t = note + decalage;
+      playNote(notes[t % notes.length], Math.floor(t / notes.length));
+    }
+
+
+    function playChords() {
+      var n = note + alteration;
+      var i = notes.indexOf(n);
+
+      // Tonique
+      playNote(n, 0);
+
+      var tierce = -1;
+      var quinte = -1;
+      var add = -1;
+
+      switch (formation) {
+        case "":
+          // Tierce majeur
+          tierce = 4;
+          break;
+        case "m":
+          // Tierce mineur
+          tierce = 3;
+          break;
+        case "7":
+          // Tierce majeur
+          tierce = 4;
+          // Septième mineur
+          add = 10;
+          break;
+        case "7M":
+          // Tierce majeur
+          tierce = 4;
+          // Septième majeur
+          add = 11;
+          break;
+        case "m7M":
+          // Tierce mineur
+          tierce = 3;
+          // Septième mineur
+          add = 10;
+          break;
+        case "6":
+          // Tierce majeur
+          tierce = 4;
+          // Sixième
+          add = 9;
+          break;
+      }
+
+      quinte = 7;
+
+      switch (supp) {
+        case "(dim)":
+          tierce = 3;
+          quinte = 6;
+          break;
+        case "(sus2)":
+          tierce = 2;
+          break;
+        case "(sus4)":
+          tierce = 5;
+          break;
+        case "(aug)":
+          quinte = 8;
+          break;
+        case "(b5)":
+          quinte = 6;
+          break;
+        case "(b9)":
+          add = 13;
+          break;
+        case "(b13)":
+          add = 18;
+          break;
+      }
+
+      if (tierce != -1)
+        playNoteDecalage(i, tierce);
+      if (quinte != -1)
+        playNoteDecalage(i, quinte);
+      if (add != -1)
+        playNoteDecalage(i, add);
+      if (basse != "")
+        playNote(basse + basse_alteration, -1);
+    }
+
     function displayChords() {
       var basse_temp = basse == "" ? "" : "/" + basse + basse_alteration;
       $("#chord-display").html(note + alteration + formation + supp + basse_temp);
     }
 
     $(document).ready(function() {
+      $("#sound").change(function() {
+        id_sound = $(this).val();
+      });
+
       $("#note-btns").children().click(function() {
         $("#note-btns").children().removeClass("active");
         $(this).addClass("active");
 
         note = $(this).html();
 
+        $("#sharp").removeAttr("disabled");
+        $("#flat").removeAttr("disabled");
+
+        switch (note) {
+          case "C":
+            $("#flat").attr("disabled", 1);
+            if (alteration == "b") {
+              alteration = "";
+              $("#alteration-btns").children().removeClass("active");
+              $("#alteration-btns").children().first().addClass("active");
+            }
+            break;
+          case "E":
+            $("#sharp").attr("disabled", 1);
+            if (alteration == "#") {
+              alteration = "";
+              $("#alteration-btns").children().removeClass("active");
+              $("#alteration-btns").children().first().addClass("active");
+            }
+            break;
+          case "F":
+            $("#flat").attr("disabled", 1);
+            if (alteration == "b") {
+              alteration = "";
+              $("#alteration-btns").children().removeClass("active");
+              $("#alteration-btns").children().first().addClass("active");
+            }
+            break;
+          case "B":
+            $("#sharp").attr("disabled", 1);
+            if (alteration == "#") {
+              alteration = "";
+              $("#alteration-btns").children().removeClass("active");
+              $("#alteration-btns").children().first().addClass("active");
+            }
+            break;
+          default:
+
+        }
+
         displayChords();
       });
+
       $("#alteration-btns").children().click(function() {
         $("#alteration-btns").children().removeClass("active");
         $(this).addClass("active");
@@ -240,6 +415,7 @@
         supp = $(this).attr("value");
         displayChords();
       });
+
       $("#basse-btns").children().click(function() {
         $("#basse-btns").children().removeClass("active");
         $(this).addClass("active");
@@ -248,8 +424,49 @@
         if (basse == "&nbsp;")
           basse = "";
 
+        $("#basse-sharp").removeAttr("disabled");
+        $("#basse-flat").removeAttr("disabled");
+
+        switch (basse) {
+          case "C":
+            $("#basse-flat").attr("disabled", 1);
+            if (basse_alteration == "b") {
+              basse_alteration = "";
+              $("#basse-alteration-btns").children().removeClass("active");
+              $("#basse-alteration-btns").children().first().addClass("active");
+            }
+            break;
+          case "E":
+            $("#basse-sharp").attr("disabled", 1);
+            if (basse_alteration == "#") {
+              basse_alteration = "";
+              $("#basse-alteration-btns").children().removeClass("active");
+              $("#basse-alteration-btns").children().first().addClass("active");
+            }
+            break;
+          case "F":
+            $("#basse-flat").attr("disabled", 1);
+            if (basse_alteration == "b") {
+              basse_alteration = "";
+              $("#basse-alteration-btns").children().removeClass("active");
+              $("#basse-alteration-btns").children().first().addClass("active");
+            }
+            break;
+          case "B":
+            $("#basse-sharp").attr("disabled", 1);
+            if (basse_alteration == "#") {
+              basse_alteration = "";
+              $("#basse-alteration-btns").children().removeClass("active");
+              $("#basse-alteration-btns").children().first().addClass("active");
+            }
+            break;
+          default:
+
+        }
+
         displayChords();
       });
+
       $("#basse-alteration-btns").children().click(function() {
         $("#basse-alteration-btns").children().removeClass("active");
         $(this).addClass("active");
