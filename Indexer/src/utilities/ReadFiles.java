@@ -7,19 +7,27 @@ public class ReadFiles{
 
     private String path;
     private File folder;
-    private String threadName;
     private ArrayList<Song> songList;
+    private File[] listFiles;
 
-    public ReadFiles(String path, String name) {
+    public ReadFiles(String path, String filename) {
         this.path = path;
-        threadName = name;
+        listFiles = new File[1];
+        listFiles[0] = new File(path+"/"+filename);
+        songList = new ArrayList<>();
+        run();
+    }
+
+    public ReadFiles(String path) {
+        this.path = path;
         folder = new File(path);
+        listFiles = folder.listFiles();
         songList = new ArrayList<>();
         run();
     }
 
     private void run() {
-        for(File f : folder.listFiles()) {
+        for(File f : listFiles) {
             try {
                 BufferedReader in = new BufferedReader(new FileReader(this.path+"/"+f.getName()));
                 String line;

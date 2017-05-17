@@ -38,18 +38,24 @@ public class Indexing {
             Path path = FileSystems.getDefault().getPath("index_standard");
             Directory dir = FSDirectory.open(path);
             if(indexing) {
-                ReadFiles tFiles = new ReadFiles("../parsing/Lettre parsee", "readThread");
+                ReadFiles tFiles;
                 AccordAnalyzer tokenizer = new AccordAnalyzer(2, 8);
                 IndexWriterConfig iwc = new IndexWriterConfig(tokenizer);
-                iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-                iwc.setUseCompoundFile(false);
-
+                if(args[1].equals("full_indexing")) {
+                    tFiles = new ReadFiles("../parsing/Lettre parsee");
+                    iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+                    iwc.setUseCompoundFile(false);
+                } else {
+                    tFiles = new ReadFiles("../parsing/Lettre parsee", args[1]);
+                    iwc.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
+                    iwc.setUseCompoundFile(false);
+                }
                 IndexWriter indexWriter = new IndexWriter(dir, iwc);
 
                 TokenStream tokenStream;
                 for (Song s : tFiles.getSongList()) {
                     tokenStream = tokenizer
-                            .tokenStream("dummy", new StringReader(s.getAccords()));
+                            .tokenStream("song", new StringReader(s.getAccords()));
                     tokenStream.reset();
                     Document d = new Document();
                     Field name = new StringField("name", s.getName(), Field.Store.YES);
