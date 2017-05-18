@@ -40,11 +40,12 @@ def getTxtSong(url):
     url = "http://www.boiteachansons.net/Txt/"+url+".txt"
     print url
     res = request(url)
-    rl =  str(res)[88]
     string = str(res)
-    string = string.replace(rl,"<br />")
-    #print res
-    return str(res)
+
+    string = string.replace("<p>", "<pre style=style=\"word-wrap: break-word; white-space: pre-wrap;\">")
+    string = string.replace("<\p>", "<\pre>")
+    print string
+    return string
 
 def getTxtSong2(url):
 
