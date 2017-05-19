@@ -47,6 +47,9 @@ def get_txt(url):
     getTxtSong2(url)
     return getTxtSong(url)'''
 
+@app.route('/search/<query>', strict_slashes=False)
+def get_search(query):
+    return os.popen('java -jar ./Indexer.jar 1 "' + str(query) + '"').read()
 
 
 def getTxtSong(artiste, titre):
