@@ -9,6 +9,7 @@ import json
 import unicodedata
 from urllib2 import urlopen
 import bs4 as BeautifulSoup
+from flask.json import dumps
 
 import re
 
@@ -21,9 +22,13 @@ app = Flask(__name__,static_url_path='')
 
 
 
-@app.route('/youtubeUrl/<url>',strict_slashes=False)
-def get_youtube(url):
-        return getYoutubeURLfromboiteachansonsURL(url)
+@app.route('/getInfo/<artiste>/<titre>',strict_slashes=False)
+def get_youtube(artiste, titre):
+    result={}
+    result["urlYoutube"]=getYoutubeURLfromboiteachansons(artiste, titre)
+    result["paroleAndAccord"]= getTxtSong(artiste, titre)
+    return json.dumps(result)
+
 
 @app.route('/toTxt/<url>',strict_slashes=False)
 def get_txt(url):
@@ -32,20 +37,20 @@ def get_txt(url):
 
 
 
-def getTxtSong(url):
+def getTxtSong(artiste, titre):
     print "DEBUG"
-    print url
     #http://www.boiteachansons.net/Txt/Jimmy-C-Newman/Lache-pas-la-patate.txt
-    url = url.replace("_","/")
-    url = "http://www.boiteachansons.net/Txt/"+url+".txt"
+    url = "http://www.boiteachansons.net/Txt/"+artiste+"/"+titre+".txt"
     print url
     res = request(url)
     string = str(res)
 
     string = string.replace("<p>", "<pre style=style=\"word-wrap: break-word; white-space: pre-wrap;\">")
-    string = string.replace("<\p>", "<\pre>")
-    print string
-    return string
+    string = string.replace("</p>", "</pre>")
+    string = string.split("------------------------------------------------------------------------")
+    res=string[0]+string[-2]+"</pre>"
+    print res
+    return res
 
 def getTxtSong2(url):
 
@@ -75,8 +80,8 @@ def request(url):
     return BeautifulSoup.BeautifulSoup(j,"lxml")
 
 
-def getYoutubeURLfromboiteachansonsURL(urlBaC):
-    recherche = urlBaC.replace("http://www.boiteachansons.net/Partitions/","").replace(".php","").replace("/","+").replace("-","+")
+def getYoutubeURLfromboiteachansons(artiste, titre):
+    recherche = artiste.replace("-","+")+"+"+titre.replace("-","+")
     res = request("https://www.youtube.com/results?search_query="+recherche)
     print "https://www.youtube.com/results?search_query="+recherche
     pos = str(res).find("/watch?")
