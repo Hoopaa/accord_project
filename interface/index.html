@@ -160,27 +160,12 @@
         <table class="table" id="table">
         <thead>
             <tr>
-              <th>First column</th>
-              <th>Second column</th>
-              <th>Third column</th>
+              <th>Chanson <span class="badge" id="number">0</span></th>
+              <th>Artiste</th>
+              <th>Lien parole & accords</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Introducing</td>
-              <td>jQuery</td>
-              <td>Searchable</td>
-            </tr>
-            <tr>
-              <td>Lorem</td>
-              <td>Ipsum</td>
-              <td>Dolor</td>
-            </tr>
-            <tr>
-              <td>Some</td>
-              <td>More</td>
-              <td>Data</td>
-            </tr>
+          <tbody id="results">
           </tbody>
         </table>
         <hr>
@@ -497,8 +482,30 @@
     });
 
     function onSearch() {
-      $("#hideDisplay").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-      $(".btn-chords").fadeOut();
+      var search = $("#search").val();
+      search = search.trim();
+      search = search.replace(/ +(?= )/g,'');
+      $("#search").val(search);
+      $.ajax({
+          url: "http://0.0.0.0:5000/search/" + search,
+          error: function(xhr, status, error) {
+            $("#results").html("Une erreur est survenue");
+          }
+        }).done(function(data) {
+            $("#results").html("");
+            $("#hideDisplay").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+            $(".btn-chords").fadeOut();
+
+            var array = data.split("\n");
+            var nb = array.shift();
+            $("#number").html(nb);
+            array.forEach(function(element) {
+              var d = element.split("^_^");
+              if (d[0] && d[1] && d[2])
+              $("#results").append("<tr><td>" + d[0] + "</td><td>" + d[1] + "</td><td><a href=\"" + d[2] + "\">Paroles</a></td></tr>");
+            });
+        }
+      );
     }
 
     function hideDisplay() {
