@@ -35,18 +35,18 @@ public class Indexing {
                 break;
         }
         try {
-            Path path = FileSystems.getDefault().getPath("index_standard");
+            Path path = FileSystems.getDefault().getPath("../index_standard");
             Directory dir = FSDirectory.open(path);
             if(indexing) {
                 ReadFiles tFiles;
                 AccordAnalyzer tokenizer = new AccordAnalyzer(2, 8);
                 IndexWriterConfig iwc = new IndexWriterConfig(tokenizer);
                 if(args[1].equals("full_indexing")) {
-                    tFiles = new ReadFiles("../parsing/Lettre parsee");
+                    tFiles = new ReadFiles("../../parsing/Lettre parsee");
                     iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
                     iwc.setUseCompoundFile(false);
                 } else {
-                    tFiles = new ReadFiles("../parsing/Lettre parsee", args[1]);
+                    tFiles = new ReadFiles("../../parsing/Lettre parsee", args[1]);
                     iwc.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
                     iwc.setUseCompoundFile(false);
                 }
@@ -84,7 +84,7 @@ public class Indexing {
                 System.out.println(hits.length);
                 for (ScoreDoc hit : hits) {
                     Document doc = is.doc(hit.doc);
-                    System.out.println(doc.get("name") + " : " + doc.get("author") + " : " + hit.score);
+                    System.out.println(doc.get("name") + "^_^" + doc.get("author") + "^_^" + doc.get("url"));
                 }
             }
         } catch (IOException e) {
