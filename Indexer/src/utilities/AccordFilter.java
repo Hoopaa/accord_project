@@ -13,7 +13,6 @@ public class AccordFilter extends TokenFilter {
 
     //private final CharacterUtils charUtils;
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
-    private int test = 0;
 
     protected AccordFilter(TokenStream in) {
         super(in);
