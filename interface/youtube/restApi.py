@@ -25,8 +25,20 @@ app = Flask(__name__,static_url_path='')
 @app.route('/getInfo/<artiste>/<titre>',strict_slashes=False)
 def get_youtube(artiste, titre):
     result={}
-    result["urlYoutube"]=getYoutubeURLfromboiteachansons(artiste, titre)
-    result["paroleAndAccord"]= getTxtSong(artiste, titre)
+    result["errorCode"]=[0]
+
+    temp = getYoutubeURLfromboiteachansons(artiste, titre)
+    if temp == -1:
+        result["errorCode"]=[-1]
+    else:
+        result["urlYoutube"] = temp
+
+    temp = getTxtSong(artiste, titre)
+    if temp == -1:
+        result["errorCode"]=[-1]
+    else:
+        result["paroleAndAccord"] = temp
+
     return json.dumps(result)
 
 
@@ -43,6 +55,8 @@ def getTxtSong(artiste, titre):
     url = "http://www.boiteachansons.net/Txt/"+artiste+"/"+titre+".txt"
     print url
     res = request(url)
+    if res == -1:
+        return -1
     string = str(res)
 
     string = string.replace("<p>", "<pre style=style=\"word-wrap: break-word; white-space: pre-wrap;\">")
@@ -57,6 +71,9 @@ def getTxtSong2(url):
         url = url.replace("_","/")
         url = "http://www.boiteachansons.net/Partitions/"+url+".php"
         res = request(url)
+        if res == -1:
+            return -1
+
         s = res.find_all('div', attrs={'class':'pLgn'})
         resultat = ""
         for i in s:
@@ -66,23 +83,30 @@ def getTxtSong2(url):
 
 def request(url):
     res = False
-    while res == False:
+    cnt = 0
+    while res == False and cnt < 4:
         try:
             j = urlopen(url).read()
             res = True
         except Exception as e:
             print e.message
             print e.args
+            cnt += 1
 
-            #en cas de probleme attendre 20 secondes
+            #en cas de probleme attendre 5 secondes
             time.sleep(5)
 
-    return BeautifulSoup.BeautifulSoup(j,"lxml")
+    if cnt >= 4:
+        return -1
+    else:
+        return BeautifulSoup.BeautifulSoup(j,"lxml")
 
 
 def getYoutubeURLfromboiteachansons(artiste, titre):
     recherche = artiste.replace("-","+")+"+"+titre.replace("-","+")
     res = request("https://www.youtube.com/results?search_query="+recherche)
+    if res == -1:
+        return -1
     print "https://www.youtube.com/results?search_query="+recherche
     pos = str(res).find("/watch?")
     return "www.youtube.com"+str(res)[pos:pos+20]
