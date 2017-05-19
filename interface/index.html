@@ -67,10 +67,15 @@
     </div>
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2" id="custom-search-input">
-        <input type="search" id="search" value="" class="form-control" placeholder="Recherche par suite d'accords">
+        <input type="search" id="search" value="Eb(aug)/F# Cm(sus4)/D F#(sus2)/C B7M/Db" class="form-control" placeholder="Recherche par suite d'accords">
         <span class="input-group-btn">
           <button class="btn btn-info btn-lg" type="button" onclick="onSearch()">
             <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </span>
+        <span class="input-group-btn">
+          <button class="btn btn-info btn-lg" type="button" onclick="listenSearch()">
+            <i class="glyphicon glyphicon-volume-up"></i>
           </button>
         </span>
         <span class="input-group-btn">
@@ -144,7 +149,7 @@
         <mark><span id="chord-display"></span></mark>
         <br />
         <button type="button" class="btn btn-success" id="add-chord">Ajouter cet accord</button>
-        <button type="button" class="btn btn-info" onclick="playChords()">
+        <button type="button" class="btn btn-info" onclick="playActualChords()">
           Écouter cet accord <i id="hideDisplay" class="glyphicon glyphicon-volume-up"></i>
         </button>
         <select id="sound">
@@ -225,8 +230,7 @@
       playNote(notes[t % notes.length], Math.floor(t / notes.length));
     }
 
-
-    function playChords() {
+    function playChords(note, alteration, formation, supp, basse, basse_alteration) {
       var n = note + alteration;
       var i = notes.indexOf(n);
 
@@ -307,6 +311,71 @@
         playNoteDecalage(i, add);
       if (basse != "")
         playNote(basse + basse_alteration, -1);
+    }
+
+
+    function playActualChords() {
+      playChords(note, alteration, formation, supp, basse, basse_alteration);
+    }
+
+    function listenSearch() {
+      var search = $("#search").val();
+      search = search.trim();
+      search = search.replace(/ +(?= )/g,'');
+      $("#search").val(search);
+
+      var chords = search.split(" ");
+      for (var i = 0; i < chords.length; i++) {
+        var index_str = 0;
+        var n = chords[i].charAt(index_str++);
+        var a = "";
+        if (chords[i].charAt(index_str) == "#" || chords[i].charAt(index_str) == "b")
+          a = chords[i].charAt(index_str++);
+
+        var f = "";
+        switch(chords[i].charAt(index_str)) {
+          case "m":
+            f = chords[i].charAt(index_str++);
+            if (chords[i].charAt(index_str) == "7") {
+              f = "m7M";
+              index_str += 2;
+            }
+            break;
+          case "7":
+            f = chords[i].charAt(index_str++);
+            if (chords[i].charAt(index_str) == "M")
+              f += chords[i].charAt(index_str++);
+            break;
+          case "6":
+            f = chords[i].charAt(index_str++);
+            break;
+        }
+
+        var s = "";
+        if (chords[i].charAt(index_str) == "(") {
+          while (chords[i].charAt(index_str) && chords[i].charAt(index_str) != ")") {
+            s += chords[i].charAt(index_str++);
+          }
+          s += chords[i].charAt(index_str++);
+        }
+
+        var b = "";
+        var b_a = "";
+        var index_basse = chords[i].indexOf("/");
+        if (index_basse > -1) {
+          b = chords[i].charAt(index_basse + 1);
+          if (chords[i].charAt(index_basse + 2) == "#" || chords[i].charAt(index_basse + 2) == "b")
+            b_a = chords[i].charAt(index_basse + 2);
+        }
+
+        playChordsAfter(n, a, f, s, b, b_a, i * 1000);
+      }
+    }
+
+    function playChordsAfter(note, alteration, formation, supp, basse, basse_alteration, time) {
+      setTimeout(function(){
+        playChords(note, alteration, formation, supp, basse, basse_alteration);
+      }, time);
     }
 
     function displayChords() {
@@ -479,6 +548,16 @@
       });
 
       displayChords();
+
+      $('#search').bind("enterKey",function(e){
+        onSearch();
+      });
+      $('#search').keyup(function(e){
+        if(e.keyCode == 13) {
+          $(this).trigger("enterKey");
+        }
+      });
+
     });
 
     function onSearch() {
