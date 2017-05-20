@@ -15,6 +15,6 @@
  tous les champs sont séparté par des "," et les accord sont encadré de "[" "]"
 
  ## remarque
- lettre J problème avec Jordana Camelia
+ lettre J problème avec Jordana Camelia (il y a 2x l'artiste qui pointe sur les mêmes chansons)
  
  lettre s problème avec Joan Manuel Serrat
