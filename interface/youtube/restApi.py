@@ -42,10 +42,10 @@ def get_youtube(artiste, titre):
     return json.dumps(result)
 
 
-@app.route('/toTxt/<url>',strict_slashes=False)
+'''@app.route('/toTxt/<url>',strict_slashes=False)
 def get_txt(url):
     getTxtSong2(url)
-    return getTxtSong(url)
+    return getTxtSong(url)'''
 
 
 
@@ -66,7 +66,7 @@ def getTxtSong(artiste, titre):
     print res
     return res
 
-def getTxtSong2(url):
+'''def getTxtSong2(url):
 
         url = url.replace("_","/")
         url = "http://www.boiteachansons.net/Partitions/"+url+".php"
@@ -77,7 +77,7 @@ def getTxtSong2(url):
         s = res.find_all('div', attrs={'class':'pLgn'})
         resultat = ""
         for i in s:
-            print i.text
+            print i.text'''
 
 
 
