@@ -56,8 +56,13 @@
       font-size: 23px;
     }
 
+    .highlight {
+      color: red;
+    }
+
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script src="keithwhor-audiosynth-2e26f29/audiosynth.js"></script>
 </head>
 <body>
@@ -67,7 +72,7 @@
     </div>
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2" id="custom-search-input">
-        <input type="search" id="search" value="Eb(aug)/F# Cm(sus4)/D F#(sus2)/C B7M/Db" class="form-control" placeholder="Recherche par suite d'accords">
+        <input type="search" id="search" value="A B C D" class="form-control" placeholder="Recherche par suite d'accords">
         <span class="input-group-btn">
           <button class="btn btn-info btn-lg" type="button" onclick="onSearch()">
             <i class="glyphicon glyphicon-search"></i>
@@ -167,7 +172,7 @@
             <tr>
               <th>Chanson <span class="badge" id="number">0</span></th>
               <th>Artiste</th>
-              <th>Lien parole & accords</th>
+              <th>Parole & accords</th>
             </tr>
           </thead>
           <tbody id="results">
@@ -560,13 +565,17 @@
 
     });
 
+    var current_search = "";
+
     function onSearch() {
       var search = $("#search").val();
       search = search.trim();
       search = search.replace(/ +(?= )/g,'');
       $("#search").val(search);
+
+      current_search = search;
       $.ajax({
-          url: "http://0.0.0.0:5000/search/" + search.replace("/", 'x'),
+          url: "http://0.0.0.0:5000/search/" + search.replace(new RegExp("/", 'g'), 'x'),
           error: function(xhr, status, error) {
             $("#results").html("Une erreur est survenue");
           }
@@ -581,11 +590,56 @@
             array.forEach(function(element) {
               var d = element.split("^_^");
               if (d[0] && d[1] && d[2])
-              $("#results").append("<tr><td>" + d[0] + "</td><td>" + d[1] + "</td><td><a href=\"" + d[2] + "\">Paroles</a></td></tr>");
+              $("#results").append("<tr>\
+                  <td>" + d[0] + "</td>\
+                  <td>" + d[1] + "</td>\
+                  <td><button artiste='" + d[1] + "' song='" + d[0] + "' link='" + d[2] + "' class='btn-details'>Détails</button>\
+                </td></tr>");
             });
         }
       );
     }
+
+    $(document).on('click', '.btn-details', function() {
+      var this_button = this;
+      var tr_parent = $(this).closest("td").closest("tr");
+      if (tr_parent.next().hasClass('detail')) {
+        tr_parent.next().remove();
+      } else {
+        $(this).button('loading');
+        $.ajax({
+            url: "http://0.0.0.0:5000/getInfo/" + $(this).attr('artiste').replace(new RegExp(" ", 'g'), "-") + "/" + $(this).attr('song').replace(new RegExp(" ", 'g'), "-"),
+            error: function(xhr, status, error) {
+              $("<tr class='detail'><td>Une erreur est survenue</td></tr>").insertAfter(tr_parent);
+              $(this_button).button('reset');
+            }
+          }).done(function(json) {
+            var data = JSON.parse(json);
+            console.log(data);
+            if (data['errorCode'][0] == 0) {
+
+              // Sourlignes les chords
+              var chords = current_search.split(" ");
+              for (var i = 0; i < chords.length; i++) {
+                var rgxp = new RegExp(chords[i] + " ", 'g');
+                var repl = '<span class="highlight">' + chords[i] + ' </span>';
+                data['paroleAndAccord'] = data['paroleAndAccord'].replace(rgxp, repl);
+              }
+
+              $("<tr class='detail'>\
+                <td>\
+                  <iframe width='420' height='315' frameborder='0' allowfullscreen src='https://" + data['urlYoutube'].replace("watch?v=", "v/") + "'></iframe>\
+                </td>\
+                <td>" + data['paroleAndAccord'] + "<td>\
+                </tr>").insertAfter(tr_parent);
+            } else {
+              $("<tr class='detail'><td>Une erreur est survenue</td></tr>").insertAfter(tr_parent);
+            }
+            $(this_button).button('reset');
+          }
+        );
+      }
+    })
 
     function hideDisplay() {
       if ($(".btn-chords").is(":visible")) {
