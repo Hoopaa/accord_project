@@ -566,7 +566,7 @@
       search = search.replace(/ +(?= )/g,'');
       $("#search").val(search);
       $.ajax({
-          url: "http://0.0.0.0:5000/search/" + search,
+          url: "http://0.0.0.0:5000/search/" + search.replace("/", 'x'),
           error: function(xhr, status, error) {
             $("#results").html("Une erreur est survenue");
           }

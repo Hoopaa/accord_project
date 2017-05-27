@@ -49,6 +49,7 @@ def get_txt(url):
 
 @app.route('/search/<query>', strict_slashes=False)
 def get_search(query):
+    query = query.replace("x", "/")
     return os.popen('java -jar ./Indexer.jar 1 "' + str(query) + '"').read()
 
 
