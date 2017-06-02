@@ -47,6 +47,9 @@ public class Indexing {
                     iwc.setUseCompoundFile(false);
                 } else {
                     tFiles = new ReadFiles("../../parsing/Lettre_parsee", args[1]);
+                    if(tFiles.failed) {
+                        System.exit(-1);
+                    }
                     iwc.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
                     iwc.setUseCompoundFile(false);
                 }

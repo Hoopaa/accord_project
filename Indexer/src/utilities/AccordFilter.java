@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class AccordFilter extends TokenFilter {
 
-    //private final CharacterUtils charUtils;
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 
     protected AccordFilter(TokenStream in) {

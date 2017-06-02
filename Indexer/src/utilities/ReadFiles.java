@@ -9,11 +9,12 @@ public class ReadFiles{
     private File folder;
     private ArrayList<Song> songList;
     private File[] listFiles;
+    public boolean failed = false;
 
     public ReadFiles(String path, String filename) {
         this.path = path;
         listFiles = new File[1];
-        listFiles[0] = new File(path+"/"+filename);
+        listFiles[0] = new File(path + "/" + filename);
         songList = new ArrayList<>();
         run();
     }
@@ -39,7 +40,8 @@ public class ReadFiles{
                 }
                 in.close();
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                failed = true;
+                return;
             } catch (IOException e) {
                 e.printStackTrace();
             }
