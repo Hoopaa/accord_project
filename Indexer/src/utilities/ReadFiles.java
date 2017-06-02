@@ -2,6 +2,7 @@ package utilities;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ReadFiles{
 
@@ -41,7 +42,7 @@ public class ReadFiles{
                     songList.add(new Song(songDetails[0], songDetails[1], songDetails[2], songs[1].substring(0, songs[1].length()-1)));
                 }
                 in.close();
-                if(filename == f.getName()) {
+                if(Objects.equals(filename, f.getName())) {
                     f.delete();
                 }
             } catch (FileNotFoundException e) {
