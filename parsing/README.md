@@ -56,4 +56,4 @@ L'avantage de cette méthode de mise à jour plutot que de tout reparser est que
 
 ## Améliorations
 
-
+- Regrouper les 2 codes python (parsing et mise à jour des données) en un seul code.
