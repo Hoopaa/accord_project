@@ -44,7 +44,7 @@ Exemple d'url pour l'artiste Aaron pour le titre Blow : http://www.boiteachanson
 
 ## Mise à jour des données
 
-
+Un script python permet de mettre à jour les données. Il fonctionne sur le même principe que pour la collecte des données. Cependants, il vérifie si une chanson est présente ou pas. Si elle est déjà présente, il ne fait rien et si elle ne l'est pas, il l'ajoute dans le fichier correspondant exemple "B.txt" si l'artiste commence par "B". De plus, il ajoute le titre dans le fichier newSong.txt pour que l'indexeur puisse ajouter les nouveaux titres sans devoir tout réindexer.
 
 ## Remarques
 
