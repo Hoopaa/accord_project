@@ -35,16 +35,19 @@ Les librairies utilisées sont :
 - Beautiful Soup pour le parsing html.
 
 Le parsing se fait de la façon suivante :
-- Les artistes sont accessible par URL comme par exemple : http://www.boiteachansons.net/Partitions/index.php?artiste=A contient tous les artistes commencant par la lettre "A"
+- Les artistes sont accessible par url comme par exemple : http://www.boiteachansons.net/Partitions/index.php?artiste=A contient tous les artistes commencant par la lettre "A".
 - Les pages contenant les artistes d'une même lettre sont ensuite parsées pour obtenir l'url contenant la liste des titres des artiste.
 Exemple d'url pour l'artiste Aaron : http://www.boiteachansons.net/Artistes/Aaron.php
 - La page d'un artiste est ensuite parsée pour obtenir l'url de chacun des titres.
 Exemple d'url pour l'artiste Aaron pour le titre Blow : http://www.boiteachansons.net/Partitions/Aaron/Blow.php
 - Les accords sont ensuite extrait et stocké dans le fichier correspondant à l'artiste en question. (fichier "A.txt" pour l'artiste Aaron par exemple.
 
+## Mise à jour des données
 
 
-## remarque
-lettre J problème avec Jordana Camelia (il y a 2x l'artiste qui pointe sur les mêmes chansons)
 
-lettre s problème avec Joan Manuel Serrat
+## Remarques
+
+- La lettre J pose problème avec Jordana Camelia (il y a 2x l'artiste qui pointe sur les mêmes chansons). Du coup, les titres de cette artiste sont présent 2x dans les données.
+
+- La lettre S pose le même problème avec Joan Manuel Serrat.
