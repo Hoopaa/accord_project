@@ -42,11 +42,11 @@ public class Indexing {
                 AccordAnalyzer tokenizer = new AccordAnalyzer(2, 8);
                 IndexWriterConfig iwc = new IndexWriterConfig(tokenizer);
                 if(args[1].equals("full_indexing")) {
-                    tFiles = new ReadFiles("../../parsing/Lettre parsee");
+                    tFiles = new ReadFiles("../../parsing/Lettre_parsee");
                     iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
                     iwc.setUseCompoundFile(false);
                 } else {
-                    tFiles = new ReadFiles("../../parsing/Lettre parsee", args[1]);
+                    tFiles = new ReadFiles("../../parsing/Lettre_parsee", args[1]);
                     iwc.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
                     iwc.setUseCompoundFile(false);
                 }
