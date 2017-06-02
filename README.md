@@ -55,4 +55,4 @@ Il peut aussi entendre les accords à la suite.
  * Pouvons-nous créer notre propre indexeur? => utiliser Lucen
  * Nous avons 2800 artistes et 16000 titres => OK
  * Sources des données : http://www.boiteachansons.net/Partitions/index.php
- * Problèmes avec les caractères "/" et "#" dans l'url, on les a remplacer par un code et le python les converti
+ * Problèmes avec les caractères "/" et "#" dans l'url, la fonction javascript `encodeURIComponent` nous les converti en '%'
