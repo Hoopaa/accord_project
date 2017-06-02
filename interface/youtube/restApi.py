@@ -56,6 +56,7 @@ def get_search(query):
 
 @app.route('/update', strict_slashes=False)
 def set_update():
+    os.popen('python ../../parsing/updateData.py').read()
     return os.popen('java -jar ./Indexer.jar 0 newSong.txt').read()
 
 def getTxtSong(artiste, titre):
