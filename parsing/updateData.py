@@ -48,15 +48,16 @@ def getAccord(url):
 
 
 alphabet = ["9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+alphabet = ["Y"]
 cntNewSong = 0
 
-with open("Lettre parsee/newSong.txt", "w") as fUpdate:
+with open("../../parsing/Lettre_parsee/newSong.txt", "w") as fUpdate:
 
     #pour tous les artistes (de A a Z + 9)
     for lettre in alphabet:
         print lettre
         urlsFromFile = []
-        with open("Lettre parsee/"+lettre+".txt", "r+") as f:
+        with open("../../parsing/Lettre_parsee/"+lettre+".txt", "r+") as f:
             for l in f.readlines():
                 urlsFromFile.append(l.split(",")[2])
 
