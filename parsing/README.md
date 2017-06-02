@@ -7,7 +7,7 @@ Toutes les données proviennent du site http://www.boiteachansons.net/Partitions
 
 ## Quantité de données
 
-Le sites boite à chansons contient environs 2800 artistes et 14500 titres. Ce qui représente un peu moins de 4 Mo de données stockées une fois le parsing effectué.
+Le sites boite à chansons contient environs 2800 artistes et 14500 titres. Ce qui représente un peu moins de 4 Mo de données stockées une fois le parsing effectué. Cependant, la quantité de donnée peu évoluer si des chansons sont ajoutées au site boite à chanson.
 
 ## Stockage des données
 
@@ -24,6 +24,10 @@ Tous les champs sont séparté par des "," et les accord sont encadré de "[" "]
 
 ## Implémentation
 
+Le parsing a été implémentée en Python. 
+Les librairies utilisées sont :
+ - urllib2 pour charger les pages html.
+ - Beautiful Soup pour le parsing html.
 
 
 
