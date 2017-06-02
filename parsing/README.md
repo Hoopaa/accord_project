@@ -46,8 +46,14 @@ Exemple d'url pour l'artiste Aaron pour le titre Blow : http://www.boiteachanson
 
 Un script python permet de mettre à jour les données. Il fonctionne sur le même principe que pour la collecte des données. Cependants, il vérifie si une chanson est présente ou pas. Si elle est déjà présente, il ne fait rien et si elle ne l'est pas, il l'ajoute dans le fichier correspondant exemple "B.txt" si l'artiste commence par "B". De plus, il ajoute le titre dans le fichier newSong.txt pour que l'indexeur puisse ajouter les nouveaux titres sans devoir tout réindexer.
 
+L'avantage de cette méthode de mise à jour plutot que de tout reparser est que cela prend beaucoup moins de temps et aussi que si certain titre ont été supprimé entre temps, ils seront toujours enregistré dans nos données.
+
 ## Remarques
 
 - La lettre J pose problème avec Jordana Camelia (il y a 2x l'artiste qui pointe sur les mêmes chansons). Du coup, les titres de cette artiste sont présent 2x dans les données.
 
 - La lettre S pose le même problème avec Joan Manuel Serrat.
+
+## Améliorations
+
+
