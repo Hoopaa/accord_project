@@ -575,7 +575,7 @@
 
       current_search = search;
       $.ajax({
-          url: "http://0.0.0.0:5000/search/" + search.replace(new RegExp("/", 'g'), 'x').replace(new RegExp("#", 'g'), 'q'),
+          url: "http://0.0.0.0:5000/search/" + encodeURIComponent(search),
           error: function(xhr, status, error) {
             $("#results").html("Une erreur est survenue");
           }

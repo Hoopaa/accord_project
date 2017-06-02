@@ -52,14 +52,11 @@ def get_txt(url):
 
 @app.route('/search/<query>', strict_slashes=False)
 def get_search(query):
-    query = query.replace("x", "/")
-    query = query.replace("q", "#")
     return os.popen('java -jar ./Indexer.jar 1 "' + str(query) + '"').read()
 
 @app.route('/update', strict_slashes=False)
 def set_update():
     return os.popen('java -jar ./Indexer.jar 0 newSong.txt').read()
-
 
 def getTxtSong(artiste, titre):
     print "DEBUG"
