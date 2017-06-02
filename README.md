@@ -114,7 +114,7 @@ Les routes disponibles sont les suivantes :
 - /search/\<query>
 - /update
 
-La route /getInfo/<artiste>/<titre> retourne au format JSON l'url d'une video YouTube correspondant à la l'artiste et au titre passé en paramêtre. Elle retourne aussi les paroles et les accords du titre en question. Une version ".txt" est disponible dirrectement depuis le site boite à chanson. Exemple d'url pour l'artiste Aaron avec le titre Blow : http://www.boiteachansons.net/Txt/Aaron/Blow.txt. Un simple prétraitement permet d'enlever l'en-tête et le pied de page du fichier ".txt".
+La route /getInfo/\<artiste>/\<titre> retourne au format JSON l'url d'une video YouTube correspondant à la l'artiste et au titre passé en paramêtre. Elle retourne aussi les paroles et les accords du titre en question. Une version ".txt" est disponible dirrectement depuis le site boite à chanson. Exemple d'url pour l'artiste Aaron avec le titre Blow : http://www.boiteachansons.net/Txt/Aaron/Blow.txt. Un simple prétraitement permet d'enlever l'en-tête et le pied de page du fichier ".txt".
 
 Pour la recherche de la video YouTube, nous n'utilisons pas l'api YouTube mais Beautiful Soup pour parser le résultat d'une recherche par mot clé sur YouTube. Les mots clé etant le nom de l'artiste et le titre comme l'exemple suivant pour Blow de Aaron : https://www.youtube.com/results?search_query=Aaron+blow.
 
@@ -130,7 +130,4 @@ TODO les autres routes
 
 ## Autres
 
- * Pouvons-nous créer notre propre indexeur? => utiliser Lucen
- * Nous avons 2800 artistes et 16000 titres => OK
- * Sources des données : http://www.boiteachansons.net/Partitions/index.php
  * Problèmes avec les caractères "/" et "#" dans l'url, la fonction javascript `encodeURIComponent` nous les converti en '%'
