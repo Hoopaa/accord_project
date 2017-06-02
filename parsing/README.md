@@ -22,12 +22,25 @@ _nom_de_l'artiste_,_titre_de_la_chanson_,_url_de_la_chanson_,[_accord_1_,_accord
 
 Tous les champs sont séparté par des "," et les accord sont encadré de "[" "]"
 
+## Prétraitement
+
+Il y a pas vraiment de prétraitement qui ont été effectué sur les données ormis de l'extration.
+Cependant, certain titres (paroles et accords) ont été retiré du site boite à chanson en raison des droits d'auteurs. Mais le titre est toujours présent sur le site boite à chanson. Donc si le titre est présent mais que les accords et les paroles ne sont pas présent, le titre en question n'est pas stocké.
+
 ## Implémentation
 
 Le parsing a été implémentée en Python. 
 Les librairies utilisées sont :
- - urllib2 pour charger les pages html.
- - Beautiful Soup pour le parsing html.
+- urllib2 pour charger les pages html.
+- Beautiful Soup pour le parsing html.
+
+Le parsing se fait de la façon suivante :
+- Les artistes sont accessible par URL comme par exemple : http://www.boiteachansons.net/Partitions/index.php?artiste=A contient tous les artistes commencant par la lettre "A"
+- Les pages contenant les artistes d'une même lettre sont ensuite parsées pour obtenir l'url contenant la liste des titres des artiste.
+Exemple d'url pour l'artiste Aaron : http://www.boiteachansons.net/Artistes/Aaron.php
+- La page d'un artiste est ensuite parsée pour obtenir l'url de chacun des titres.
+Exemple d'url pour l'artiste Aaron pour le titre Blow : http://www.boiteachansons.net/Partitions/Aaron/Blow.php
+- Les accords sont ensuite extrait et stocké dans le fichier correspondant à l'artiste en question. (fichier "A.txt" pour l'artiste Aaron par exemple.
 
 
 
