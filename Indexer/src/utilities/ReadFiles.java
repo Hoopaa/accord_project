@@ -10,9 +10,11 @@ public class ReadFiles{
     private ArrayList<Song> songList;
     private File[] listFiles;
     public boolean failed = false;
+    private String filename = "";
 
     public ReadFiles(String path, String filename) {
         this.path = path;
+        this.filename = filename;
         listFiles = new File[1];
         listFiles[0] = new File(path + "/" + filename);
         songList = new ArrayList<>();
@@ -39,6 +41,9 @@ public class ReadFiles{
                     songList.add(new Song(songDetails[0], songDetails[1], songDetails[2], songs[1].substring(0, songs[1].length()-1)));
                 }
                 in.close();
+                if(filename == f.getName()) {
+                    f.delete();
+                }
             } catch (FileNotFoundException e) {
                 failed = true;
                 return;
