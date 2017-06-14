@@ -72,11 +72,26 @@ Cependant, certain titres (paroles et accords) ont été retiré du site boite �
 
 ## Conception
 
+### Serveur Python
+
+Un serveur python à été réalisé avec flask. Il permet à l'interface de communiquer avec l'indexeur et d'obtenir plus de détails comme l'url d'une video youtube et les paroles avec les accords d'un titre.
+
+Les routes disponibles sont les suivantes :
+- /getInfo/\<artiste>/\<titre>
+- /search/\<query>
+- /update
+
+La route /getInfo/\<artiste>/\<titre> retourne au format JSON l'url d'une video YouTube correspondant à la l'artiste et au titre passé en paramêtre. Elle retourne aussi les paroles et les accords du titre en question. Une version ".txt" est disponible dirrectement depuis le site boite à chanson. Exemple d'url pour l'artiste Aaron avec le titre Blow : http://www.boiteachansons.net/Txt/Aaron/Blow.txt. Un simple prétraitement permet d'enlever l'en-tête et le pied de page du fichier ".txt".
+
+Pour la recherche de la video YouTube, nous n'utilisons pas l'api YouTube mais Beautiful Soup pour parser le résultat d'une recherche par mot clé sur YouTube. Les mots clé etant le nom de l'artiste et le titre comme l'exemple suivant pour Blow de Aaron : https://www.youtube.com/results?search_query=Aaron+blow.
+
+TODO les autres routes
+
 ### Parsing
 
 #### Implémentation
 
-Le parsing a été implémentée en Python. 
+Le parsing a été implémentée en Python.
 Les librairies utilisées sont :
 - urllib2 pour charger les pages html.
 - Beautiful Soup pour le parsing html.
@@ -104,21 +119,6 @@ L'avantage de cette méthode de mise à jour plutot que de tout reparser est que
 #### Améliorations
 
 - Regrouper les 2 codes python (parsing et mise à jour des données) en un seul code.
-
-### Serveur Python
-
-Un serveur python à été réalisé avec flask. Il permet à l'interface de communiquer avec l'indexeur et d'obtenir plus de détails comme l'url d'une video youtube et les paroles avec les accords d'un titre.
-
-Les routes disponibles sont les suivantes :
-- /getInfo/\<artiste>/\<titre>
-- /search/\<query>
-- /update
-
-La route /getInfo/\<artiste>/\<titre> retourne au format JSON l'url d'une video YouTube correspondant à la l'artiste et au titre passé en paramêtre. Elle retourne aussi les paroles et les accords du titre en question. Une version ".txt" est disponible dirrectement depuis le site boite à chanson. Exemple d'url pour l'artiste Aaron avec le titre Blow : http://www.boiteachansons.net/Txt/Aaron/Blow.txt. Un simple prétraitement permet d'enlever l'en-tête et le pied de page du fichier ".txt".
-
-Pour la recherche de la video YouTube, nous n'utilisons pas l'api YouTube mais Beautiful Soup pour parser le résultat d'une recherche par mot clé sur YouTube. Les mots clé etant le nom de l'artiste et le titre comme l'exemple suivant pour Blow de Aaron : https://www.youtube.com/results?search_query=Aaron+blow.
-
-TODO les autres routes 
 
 
 ## Contributeurs
