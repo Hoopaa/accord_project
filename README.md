@@ -81,11 +81,24 @@ Les routes disponibles sont les suivantes :
 - /search/\<query>
 - /update
 
+#### /getInfo/\<artiste>/\<titre>
+
 La route /getInfo/\<artiste>/\<titre> retourne au format JSON l'url d'une video YouTube correspondant à la l'artiste et au titre passé en paramêtre. Elle retourne aussi les paroles et les accords du titre en question. Une version ".txt" est disponible dirrectement depuis le site boite à chanson. Exemple d'url pour l'artiste Aaron avec le titre Blow : http://www.boiteachansons.net/Txt/Aaron/Blow.txt. Un simple prétraitement permet d'enlever l'en-tête et le pied de page du fichier ".txt".
 
 Pour la recherche de la video YouTube, nous n'utilisons pas l'api YouTube mais Beautiful Soup pour parser le résultat d'une recherche par mot clé sur YouTube. Les mots clé etant le nom de l'artiste et le titre comme l'exemple suivant pour Blow de Aaron : https://www.youtube.com/results?search_query=Aaron+blow.
 
-TODO les autres routes
+#### /search/\<query>
+Cette route exécute l'indexer avec le paramètre *query* :
+```Python
+@app.route('/search/<query>', strict_slashes=False)
+def get_search(query):
+    return os.popen('java -jar ./Indexer.jar 1 "' + str(query) + '"').read()
+```
+
+#### /update
+Cette route exécute la routine de mis à jour.
+
+D'abbord la récupération des potentiels nouveaux morceaux, *updateData.py*, puis la mis à jour de l'indexer *./Indexer.jar 0 newSong.txt*.
 
 ### Parsing
 
