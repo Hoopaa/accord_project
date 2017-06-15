@@ -1,6 +1,6 @@
 # accord_project
 
-Un moteur de recherche où l'on peut indiquer un ou plusieurs accords, comme par exemeple : "G C Em7 Dm", et il nous retourne une liste de chansons utilisant cette suite d'accords.
+Un moteur de recherche où l'on peut indiquer un ou plusieurs accords, comme par exemple : "G C Em7 Dm", et il nous retourne une liste de chansons utilisant cette suite d'accords.
 
 Projet réalisé dans le cadre du cours Web Mining de la HES-SO MSE.
 
@@ -120,6 +120,71 @@ L'avantage de cette méthode de mise à jour plutot que de tout reparser est que
 
 - Regrouper les 2 codes python (parsing et mise à jour des données) en un seul code.
 
+### Client
+
+Le client est Web est une simple page HTML et JavaScript. La bibliothèque JQuery est utilisé pour nous faciliter la syntaxe des script.
+
+#### Contrôle utilisateur
+
+Un champ de type Input Text permet à l'utilisateur de taper les accords. Il peut aussi utiliser les boutons qui modifie des variables globales pour décrire l'accord courant :
+
+```JavaScript
+var note = "C";
+var alteration = "";
+var formation = "";
+var supp = "";
+var basse = "";
+var basse_alteration = "";
+```
+
+L'accord actuel sélectionné est affiché comme suit :
+
+```JavaScript
+var basse_temp = basse == "" ? "" : "/" + basse + basse_alteration;
+$("#chord-display").html(note + alteration + formation + supp + basse_temp);
+```
+
+#### Lecture
+
+Pour l'écoute d'un accord, la bibliothèque est [AudioSynth](https://github.com/keithwhor/audiosynth) utilisé. Cet outils nous permet de jouer une note comme ceci :
+
+```JavaScript
+Synth.play(sound, note, octave, duration);
+```
+Un accord est composé de plusieurs notes, ils faut donc le construire.
+Si par exemple pour une note n, avec une tierce majeur, il faut jouer n et n + 4. Une tierce mineur aurait été n + 3.
+
+Si l'utilisater souhaite jouer les accords de sa recherche un par un, il faut alors parser cette entrée séparée par des espace.
+
+Voici le début du parsing, ou *n* est la note et *a* l'alteration (vide, # ou b).
+
+```JavaScript
+var chords = search.split(" ");
+for (var i = 0; i < chords.length; i++) {
+  var index_str = 0;
+  var n = chords[i].charAt(index_str++);
+  var a = "";
+  if (chords[i].charAt(index_str) == "#" || chords[i].charAt(index_str) == "b")
+    a = chords[i].charAt(index_str++);
+```
+
+Une fois chaque accord traité et décortiqué, ils sont joué à la suite avec une durée d'une seconde.
+
+#### Recherche
+
+Une effectuer une requête, l'objet Ajax est utilisé. Lorsqu'il reçoit des données, il les ajoute à la suite dans la table prévut à cet effet.
+
+Chaque entrée dans la table contient un bouton pour développer des détails. Il réeffectue une requête avec le nom de la chanson comme paramètre.
+
+Lorsque les paroles sont affichées, on indique en rouge les accords qui se trouve dans la recherche :
+```JavaScript
+var chords = current_search.split(" ");
+for (var i = 0; i < chords.length; i++) {
+  var rgxp = new RegExp(chords[i] + " ", 'g');
+  var repl = '<span class="highlight">' + chords[i] + ' </span>';
+  data['paroleAndAccord'] = data['paroleAndAccord'].replace(rgxp, repl);
+}
+```
 
 ## Contributeurs
 
