@@ -122,7 +122,7 @@ L'avantage de cette méthode de mise à jour plutot que de tout reparser est que
 
 ### Client
 
-Le client est Web est une simple page HTML et JavaScript. La bibliothèque JQuery est utilisé pour nous faciliter la syntaxe des script.
+Le client est Web est une simple page HTML et JavaScript. La bibliothèque JQuery est utilisé pour nous faciliter la syntaxe des scripts.
 
 #### Contrôle utilisateur
 
@@ -146,17 +146,17 @@ $("#chord-display").html(note + alteration + formation + supp + basse_temp);
 
 #### Lecture
 
-Pour l'écoute d'un accord, la bibliothèque est [AudioSynth](https://github.com/keithwhor/audiosynth) utilisé. Cet outils nous permet de jouer une note comme ceci :
+Pour l'écoute d'un accord, la bibliothèque est [AudioSynth](https://github.com/keithwhor/audiosynth) utilisé. Cet outil nous permet de jouer une note comme ceci :
 
 ```JavaScript
 Synth.play(sound, note, octave, duration);
 ```
-Un accord est composé de plusieurs notes, ils faut donc le construire.
-Si par exemple pour une note n, avec une tierce majeur, il faut jouer n et n + 4. Une tierce mineur aurait été n + 3.
+Un accord est composé de plusieurs notes, il faut donc le construire.
+Si par exemple pour une note n, avec une tierce majeure, il faut jouer n et n + 4. Une tierce mineure aurait été n + 3.
 
-Si l'utilisater souhaite jouer les accords de sa recherche un par un, il faut alors parser cette entrée séparée par des espace.
+Si l'utilisateur souhaite jouer les accords de sa recherche un par un, il faut alors parser cette entrée séparée par des espace.
 
-Voici le début du parsing, ou *n* est la note et *a* l'alteration (vide, # ou b).
+Voici le début du parsing, ou *n* est la note et *a* l'altération (vide, # ou b).
 
 ```JavaScript
 var chords = search.split(" ");
@@ -168,11 +168,11 @@ for (var i = 0; i < chords.length; i++) {
     a = chords[i].charAt(index_str++);
 ```
 
-Une fois chaque accord traité et décortiqué, ils sont joué à la suite avec une durée d'une seconde.
+Une fois chaque accord traité et décortiqué, ils sont joués à la suite avec une durée d'une seconde.
 
 #### Recherche
 
-Une effectuer une requête, l'objet Ajax est utilisé. Lorsqu'il reçoit des données, il les ajoute à la suite dans la table prévut à cet effet.
+Une effectuer une requête, l'objet Ajax est utilisé. Lorsqu'il reçoit des données, il les ajoute à la suite dans la table prévu à cet effet.
 
 Chaque entrée dans la table contient un bouton pour développer des détails. Il réeffectue une requête avec le nom de la chanson comme paramètre.
 
