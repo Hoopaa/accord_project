@@ -120,6 +120,42 @@ L'avantage de cette méthode de mise à jour plutot que de tout reparser est que
 
 - Regrouper les 2 codes python (parsing et mise à jour des données) en un seul code.
 
+### Indexer
+
+L'indexer a été implementé en Java en utilisant la libraire Lucene. Il faut savoir que le code Java est compilé en un .jar qui est executé par le serveur de différentes manières. Il y a 3 manières différentes d'appeler l'indexer.
+
+#### Indexing complet
+
+La première manière est l'indexing complet. Utilisée uniquement pour construire l'index de A à Z, elle s'appelle de la manière suivante : 
+```shell
+java -jar ./Indexer.jar 0 full_indexing
+```
+En mode construction de l'index, le programme va lire tous les fichiers contenus dans le dossier : parsing/Lettre_parsee qui a été créé par le script de parsing. Il va donc lire, ligne par ligne, toutes les chansons mise à sa disposition qu'il va stocker dans un ArrayList de chansons (classe Song). 
+L'index va être ouvert en mode "Create" pour justement montrer que l'on veut faire un index complet. 
+L'index utilise une classe du nom de AccordAnalyzer qui est, comme son nom l'indique, l'analyzer utilisé.
+
+Cet analyzer contient un tokenizer "WhitespaceTokenizer" qui sert à séparer tous les accords avec des espaces (les virgules entre les accords qui ont été mises par le parser ont été remplacées par des espaces). Cela permet de récupérer tous les accords un à un. Ce tokenizer permet ensuite de pouvoir générer un TokenStream avec un ShingleFilter. Le ShingleFilter permet de récupérer tous les accords par groupe d'un certain nombre. Nous avons choisi de générer des shingles qui vont d'une taille de 2 à une taille de 8. Nous avons rajouté un autre Filter que nous avons faits par nos soins nommé AccordFilter. Ce filter s'occupe d'enlever les accords qui sont d'une taille de 1.
+
+Ensuite, il va créer un nouveau document pour chaque chanson qui a été stockée, en mettant des champs tels que son nom, l'auteur et l'url pour y accéder. Grâce au TokenStream créé plus haut, il va ajouter un champ qui contient tous les accords de la chanson.
+
+#### Ajout de nouvelles chansons
+
+Pour ajouter de nouvelles chansons, la commande suivante doit être effectuée : 
+
+```shell
+java -jar ./Indexer.jar 0 <filename.txt>
+```
+Cela fonctionne presque de la même façon que ci-dessus, si ce n'est qu'au lieu de lire tous les fichiers, le programme se contente de lire uniquement celui passé en argument. Il suit la même logique si ce n'est qu'il ouvre l'index en mode "Append".
+Le fichier passé en argument est supprimé une fois la mise à jour effectuée.
+
+#### Recherche dans l'index
+
+La commande pour rechercher dans l'index est la suivante : 
+```shell
+java -jar ./Indexer.jar 1 <query>
+```
+Le programme Java va effectuer une requête sur l'index grâce à un IndexSearcher qui est créé grâce à un IndexReader. La requête est simplement considérée comme une "TermQuery" et va simplement chercher dans le champ qui contient tous les accords passé en paramètre. Le résultat est une liste complète ligne par ligne de toutes les chansons dans lesquelles la suite d'accords passée en paramètre a été trouvée.
+
 ### Client
 
 Le client est Web est une simple page HTML et JavaScript. La bibliothèque JQuery est utilisé pour nous faciliter la syntaxe des scripts.
