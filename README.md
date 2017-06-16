@@ -235,6 +235,10 @@ for (var i = 0; i < chords.length; i++) {
 }
 ```
 
+## Fonctionnalités / cas d’utilisation
+
+## Conclusion
+
 ## Contributeurs
 
   * Ludovic Pfeiffer
